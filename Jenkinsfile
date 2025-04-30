@@ -36,11 +36,11 @@ pipeline {
 
     stage('Deploy to Kubernetes') {
       steps {
-        sh '''
-          export KUBECONFIG=$KUBECONFIG
+        sh """
+          export KUBECONFIG=${env.KUBECONFIG}
           kubectl apply -f deployment.yml
           kubectl apply -f service.yml
-        '''
+        """
       }
     }
   }
