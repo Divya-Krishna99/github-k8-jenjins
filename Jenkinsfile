@@ -3,6 +3,7 @@ pipeline {
 
   environment {
     IMAGE = "divyakrishna123/hello-app:v1"
+    KUBECONFIG = "/var/lib/jenkins/.kube/config"
   }
 
   stages {
@@ -35,9 +36,11 @@ pipeline {
 
     stage('Deploy to Kubernetes') {
       steps {
-        // adjust path if needed, e.g. k8s/deployment.yml
-        sh 'kubectl apply -f deployment.yml'
-        sh 'kubectl apply -f service.yml'
+        sh '''
+          export KUBECONFIG=$KUBECONFIG
+          kubectl apply -f deployment.yml
+          kubectl apply -f service.yml
+        '''
       }
     }
   }
